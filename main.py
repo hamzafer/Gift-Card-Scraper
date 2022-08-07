@@ -50,13 +50,19 @@ print(count)
 #nameShame = driver.find_element(By.XPATH, "//*[@id='order-history-wrapper']/div/div[3]/div[1]/div/div/div[2]/div/div[1]/div[2]/div/div[1]/span//a")
 #print(nameShame.text)
 
-giftcard = driver.find_element(By.XPATH, "//*[@id='order-history-wrapper']/div/div[3]/div[21]/div/div/div[2]/div/div[3]/div/div/div//button[@aria-label='View gift code']")
-giftcard.click()
-alert = driver.switch_to.active_element
-alert.click()
-copied_data = pd.read_clipboard()
-giftCardNumber = copied_data.columns[0]
-print(giftCardNumber)
+for x in range(1,count+1):
+    try:
+        giftcard = driver.find_element(By.XPATH, "//*[@id='order-history-wrapper']/div/div[3]/div["+str(x)+"]/div/div/div[2]/div/div[3]/div/div/div//button[@aria-label='View gift code']")
+        giftcard.click()
+        alert = driver.switch_to.active_element
+        alert.click()
+        copied_data = pd.read_clipboard()
+        giftCardNumber = copied_data.columns[0]
+        print(giftCardNumber)
+    except:
+        continue
+
+
 
 
 
