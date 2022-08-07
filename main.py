@@ -3,14 +3,11 @@ from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 import pandas as pd
-#from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import time
 
-s = Service("C:\Program Files (x86)\chromedriver.exe")
-driver = webdriver.Chrome(service=s)
-
+driver = webdriver.Chrome()
 
 driver.get("https://account.microsoft.com/billing/orders")
 time.sleep(5)
@@ -53,7 +50,7 @@ print(count)
 for x in range(1,count+1):
     try:
         giftcard = driver.find_element(By.XPATH, "//*[@id='order-history-wrapper']/div/div[3]/div["+str(x)+"]/div/div/div[2]/div/div[3]/div/div/div//button[@aria-label='View gift code']")
-        giftcard.click()
+        driver.execute_script("arguments[0].click();", giftcard)
         alert = driver.switch_to.active_element
         alert.click()
         copied_data = pd.read_clipboard()
@@ -61,9 +58,6 @@ for x in range(1,count+1):
         print(giftCardNumber)
     except:
         continue
-
-
-
 
 
 # for x in range(1,count+1):
