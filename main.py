@@ -55,7 +55,9 @@ for x in range(1,count+1):
         alert.click()
         copied_data = pd.read_clipboard()
         giftCardNumber = copied_data.columns[0]
-        print(giftCardNumber)
+        dateShate = driver.find_element(By.XPATH, "//*[@id='order-history-wrapper']/div/div[3]/div["+str(x)+"]//div/div/div[1]/span/span[1]")
+        orderShorder = driver.find_element(By.XPATH, "//*[@id='order-history-wrapper']/div/div[3]/div["+str(x)+"]//div/div/div[1]/span/span[3]")
+        print('1.giftCardNumber: ',giftCardNumber, ' 2.dateShate: ',dateShate.text, ' 3.orderShorder: ',orderShorder.text)
     except:
         continue
 
