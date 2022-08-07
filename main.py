@@ -2,6 +2,7 @@ from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
+import pandas as pd
 #from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -12,7 +13,7 @@ driver = webdriver.Chrome(service=s)
 
 
 driver.get("https://account.microsoft.com/billing/orders")
-time.sleep(10)
+time.sleep(5)
 
 print(driver.title)
 
@@ -31,7 +32,7 @@ time.sleep(2)
 noButton = driver.find_element(By.ID, 'idBtn_Back')
 noButton.send_keys(Keys.RETURN)
 
-time.sleep(200)
+time.sleep(100)
 
 #date2 = driver.find_element(By.XPATH, "/div[@class='ms-Stack css-153']/div[@id='6a96edb0-c3b4-45ad-acbf-810dd0b4c607']/div[@class='ms-Stack css-230']/div[@class='ms-Stack css-156']/div[@class='ms-Stack css-231']/span[@class='css-232']//span[1]")
 
@@ -49,12 +50,14 @@ print(count)
 #nameShame = driver.find_element(By.XPATH, "//*[@id='order-history-wrapper']/div/div[3]/div[1]/div/div/div[2]/div/div[1]/div[2]/div/div[1]/span//a")
 #print(nameShame.text)
 
-
-
 giftcard = driver.find_element(By.XPATH, "//*[@id='order-history-wrapper']/div/div[3]/div[21]/div/div/div[2]/div/div[3]/div/div/div//button[@aria-label='View gift code']")
 giftcard.click()
 alert = driver.switch_to.active_element
-print(alert.text)
+alert.click()
+copied_data = pd.read_clipboard()
+giftCardNumber = copied_data.columns[0]
+print(giftCardNumber)
+
 
 
 # for x in range(1,count+1):
