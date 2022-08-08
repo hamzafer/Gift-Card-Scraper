@@ -102,7 +102,7 @@ print(orderList)
 
 
 df = pd.DataFrame({'Date': dateList,'Order Number': orderList,'Gift Key': giftKeyList})
-writer = pd.ExcelWriter('shakalakaboomboom.xlsx', engine='xlsxwriter')
+writer = pd.ExcelWriter('data/shakalakaboomboom.xlsx', engine='xlsxwriter')
 df.to_excel(writer, sheet_name='Sheet1', index=False)
 writer.save()
 
