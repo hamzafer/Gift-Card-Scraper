@@ -9,6 +9,7 @@ from os.path import join, dirname
 from dotenv import load_dotenv
 from threading import Thread
 from xlsxwriter import Workbook
+import datetime
 
 dotenv_path = join(dirname(__file__), '.env')
 load_dotenv(dotenv_path)
@@ -86,7 +87,8 @@ for x in range(1, count+1):
         orderShorder = driver.find_element(By.XPATH, "//*[@id='order-history-wrapper']/div/div[3]/div["+str(x)+"]//div/div/div[1]/span/span[3]")
 
         orderNumberAboutToBeStripped = orderShorder.text
-        strippedOrderNumber = orderNumberAboutToBeStripped.strip("Order number ")
+        stripStr = "Order number "
+        strippedOrderNumber = orderNumberAboutToBeStripped.strip(stripStr)
 
         giftKeyList.append(giftCardNumber)
         dateList.append(dateShate.text)
@@ -96,16 +98,20 @@ for x in range(1, count+1):
         continue
 
 print('---------------------------------------')
-print(giftKeyList)
-print(dateList)
-print(orderList)
+print('GK: ',*giftKeyList, sep = "\n")
+print('DL: ',*dateList, sep = "\n")
+print('OL: ',*orderList, sep = "\n")
 
+fileSuffix = '{:%Y-%b-%d %H:%M:%S}'.format(datetime.datetime.now())
+folderName = 'data'
+fileExtension = 'xlsx'
+fileNameX = 'shakalakaboomboom'
+fileName = folderName+'/'+fileNameX+'_'+fileSuffix+'.'+fileExtension
 
 df = pd.DataFrame({'Date': dateList,'Order Number': orderList,'Gift Key': giftKeyList})
-writer = pd.ExcelWriter('data/shakalakaboomboom.xlsx', engine='xlsxwriter')
+writer = pd.ExcelWriter(fileName, engine='xlsxwriter')
 df.to_excel(writer, sheet_name='Sheet1', index=False)
 writer.save()
-
 
 print('Scrapping successful!')
 driver.quit()
