@@ -8,6 +8,7 @@ import os
 from os.path import join, dirname
 from dotenv import load_dotenv
 from threading import Thread
+from xlsxwriter import Workbook
 
 dotenv_path = join(dirname(__file__), '.env')
 load_dotenv(dotenv_path)
@@ -98,6 +99,13 @@ print('---------------------------------------')
 print(giftKeyList)
 print(dateList)
 print(orderList)
+
+
+df = pd.DataFrame({'Date': dateList,'Order Number': orderList,'Gift Key': giftKeyList})
+writer = pd.ExcelWriter('shakalakaboomboom.xlsx', engine='xlsxwriter')
+df.to_excel(writer, sheet_name='Sheet1', index=False)
+writer.save()
+
 
 print('Scrapping successful!')
 driver.quit()
