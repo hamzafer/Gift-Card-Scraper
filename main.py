@@ -1,15 +1,14 @@
 from selenium import webdriver
-from selenium.webdriver.chrome.service import Service#...
+from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 import pandas as pd
 import time
 import os
-from os.path import join, dirname #..
+from os.path import join, dirname
 from dotenv import load_dotenv
 from threading import Thread
 
-#..
 dotenv_path = join(dirname(__file__), '.env')
 load_dotenv(dotenv_path)
 
@@ -20,26 +19,37 @@ noButtonID = 'idBtn_Back'
 timeToScrape = 100  # time in seconds
 timeToWait = 3
 
+ENV = 'ENV'
+MAC_ENV = 'MAC'
+WIN_ENV = 'WIN'
+EMAIL = 'EMAIL'
+PASSWORD = 'PASSWORD'
+
 class TimerScraper(Thread):
     def run(self):
         for x in range(0, timeToScrape):
             print(x+1, '...', end='')
             time.sleep(1)
 
-#...
-s = Service("C:\Program Files (x86)\chromedriver.exe")
-driver = webdriver.Chrome(service=s)
+def getEnvVar(varName):
+    return os.environ.get(varName)
+
+if(getEnvVar(ENV) == MAC_ENV):
+    driver = webdriver.Chrome()
+else:
+    path = Service("C:\Program Files (x86)\chromedriver.exe")
+    driver = webdriver.Chrome(service=path)
 
 driver.get(webURL)
 
 time.sleep(timeToWait+1)
 email = driver.find_element(By.ID, emailID)
-email.send_keys(os.environ.get('EMAIL')) # ..
+email.send_keys(getEnvVar(EMAIL))
 email.send_keys(Keys.RETURN)
 
 time.sleep(timeToWait)
 password = driver.find_element(By.ID, passID)
-password.send_keys(os.environ.get('PASSWORD')) # ..
+password.send_keys(getEnvVar(PASSWORD))
 password.send_keys(Keys.RETURN)
 
 time.sleep(timeToWait)
@@ -49,8 +59,8 @@ noButton.send_keys(Keys.RETURN)
 print('Scrapping started!')
 print('Total wait = ', timeToScrape, ' seconds')
 print('\nStarting Timer in seconds...', end='')
-TimerScraper().start()  # Start a new timer thread.
-time.sleep(timeToScrape)  # Sleep so the page can load
+TimerScraper().start()  # start a new timer thread
+time.sleep(timeToScrape)  # sleep so the page can load - main thread
 
 elementsCss = '.css-233'
 totalElements = driver.find_elements(By.CSS_SELECTOR, elementsCss)
