@@ -16,7 +16,7 @@ webURL = "https://account.microsoft.com/billing/orders"
 emailID = 'i0116'
 passID = 'i0118'
 noButtonID = 'idBtn_Back'
-timeToScrape = 100  # time in seconds
+timeToScrape = 200  # time in seconds
 timeToWait = 3
 
 ENV = 'ENV'
@@ -67,6 +67,12 @@ totalElements = driver.find_elements(By.CSS_SELECTOR, elementsCss)
 count = len(totalElements)
 print('\n\nTotal Order Scraped: ', count)
 
+#declaring lists
+giftKeyList = list()
+dateList = list()
+orderList = list()
+tempCount = 1;
+
 for x in range(1, count+1):
     try:
         giftcard = driver.find_element(By.XPATH, "//*[@id='order-history-wrapper']/div/div[3]/div["+str(x)+"]/div/div/div[2]/div/div[3]/div/div/div//button[@aria-label='View gift code']")
@@ -77,9 +83,18 @@ for x in range(1, count+1):
         giftCardNumber = copied_data.columns[0]
         dateShate = driver.find_element(By.XPATH, "//*[@id='order-history-wrapper']/div/div[3]/div["+str(x)+"]//div/div/div[1]/span/span[1]")
         orderShorder = driver.find_element(By.XPATH, "//*[@id='order-history-wrapper']/div/div[3]/div["+str(x)+"]//div/div/div[1]/span/span[3]")
-        print('Gift Card Number:', giftCardNumber, ' Date: ',dateShate.text, ' Order#: ', orderShorder.text)
+        giftKeyList.append(giftCardNumber)
+        dateList.append(dateShate.text)
+        orderList.append(orderShorder.text)
+        tempCount += 1
+        #print('Gift Card Number:', giftCardNumber, ' Date: ',dateShate.text, ' Order#: ', orderShorder.text)
     except:
         continue
+
+print('---------------------------------------')
+print(giftKeyList)
+print(dateList)
+print(orderList)
 
 print('Scrapping successful!')
 driver.quit()
