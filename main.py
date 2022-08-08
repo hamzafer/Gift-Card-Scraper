@@ -83,11 +83,14 @@ for x in range(1, count+1):
         giftCardNumber = copied_data.columns[0]
         dateShate = driver.find_element(By.XPATH, "//*[@id='order-history-wrapper']/div/div[3]/div["+str(x)+"]//div/div/div[1]/span/span[1]")
         orderShorder = driver.find_element(By.XPATH, "//*[@id='order-history-wrapper']/div/div[3]/div["+str(x)+"]//div/div/div[1]/span/span[3]")
+
+        orderNumberAboutToBeStripped = orderShorder.text
+        strippedOrderNumber = orderNumberAboutToBeStripped.strip("Order number ")
+
         giftKeyList.append(giftCardNumber)
         dateList.append(dateShate.text)
-        orderList.append(orderShorder.text)
+        orderList.append(strippedOrderNumber)
         tempCount += 1
-        #print('Gift Card Number:', giftCardNumber, ' Date: ',dateShate.text, ' Order#: ', orderShorder.text)
     except:
         continue
 
