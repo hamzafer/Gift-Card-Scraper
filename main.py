@@ -6,27 +6,34 @@ import pandas as pd
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import time
+import os
+from dotenv import load_dotenv
+
+webURL = "https://account.microsoft.com/billing/orders"
+emailID = 'i0116'
+passID = 'i0118'
+noButtonID = 'idBtn_Back'
 
 driver = webdriver.Chrome()
 
-driver.get("https://account.microsoft.com/billing/orders")
+driver.get(webURL)
 time.sleep(5)
 
 print(driver.title)
 
-email = driver.find_element(By.ID, 'i0116')
-email.send_keys("tgd21july22@outlook.com")
+email = driver.find_element(By.ID, emailID)
+email.send_keys(os.getenv('EMAIL'))
 email.send_keys(Keys.RETURN)
 
 time.sleep(2)
 
-password = driver.find_element(By.ID, 'i0118')
-password.send_keys("KhurramBilal")
+password = driver.find_element(By.ID, passID)
+password.send_keys(os.getenv('PASSWORD'))
 password.send_keys(Keys.RETURN)
 
 time.sleep(2)
 
-noButton = driver.find_element(By.ID, 'idBtn_Back')
+noButton = driver.find_element(By.ID, noButtonID)
 noButton.send_keys(Keys.RETURN)
 
 time.sleep(100)
@@ -57,7 +64,7 @@ for x in range(1,count+1):
         giftCardNumber = copied_data.columns[0]
         dateShate = driver.find_element(By.XPATH, "//*[@id='order-history-wrapper']/div/div[3]/div["+str(x)+"]//div/div/div[1]/span/span[1]")
         orderShorder = driver.find_element(By.XPATH, "//*[@id='order-history-wrapper']/div/div[3]/div["+str(x)+"]//div/div/div[1]/span/span[3]")
-        print('1.giftCardNumber: ',giftCardNumber, ' 2.dateShate: ',dateShate.text, ' 3.orderShorder: ',orderShorder.text)
+        print('Gift Card Number:',giftCardNumber, ' Date: ',dateShate.text, ' Order#: ',orderShorder.text)
     except:
         continue
 
