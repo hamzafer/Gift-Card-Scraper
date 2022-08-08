@@ -11,24 +11,26 @@ emailID = 'i0116'
 passID = 'i0118'
 noButtonID = 'idBtn_Back'
 timeToScrape = 100 #time in seconds
+timeToWait = 2
 
 driver = webdriver.Chrome()
 driver.get(webURL)
 
-time.sleep(5)
+time.sleep(timeToWait+1)
 email = driver.find_element(By.ID, emailID)
 email.send_keys(os.getenv('EMAIL'))
 email.send_keys(Keys.RETURN)
 
-time.sleep(2)
+time.sleep(timeToWait)
 password = driver.find_element(By.ID, passID)
 password.send_keys(os.getenv('PASSWORD'))
 password.send_keys(Keys.RETURN)
 
-time.sleep(2)
+time.sleep(timeToWait)
 noButton = driver.find_element(By.ID, noButtonID)
-noButton.send_keys(Keys.RETURN)
+noButton
 
+print('Scrapping started!')
 time.sleep(timeToScrape)
 elementsCss = '.css-233'
 totalElements = driver.find_elements(By.CSS_SELECTOR, elementsCss)
