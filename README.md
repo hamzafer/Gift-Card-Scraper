@@ -3,7 +3,7 @@ Python script written with selenium to scrape the unredeemed gift cards and make
 
 Use pip to install the selenium and pandas packages. Using pip, you can install the packages like this:
 
-pip install selenium
+- pip install selenium
 pip install pandas
 
 Once the packages are installed, create an Environments Variable file (.env) inside the project directory.
