@@ -18,7 +18,7 @@ webURL = "https://account.microsoft.com/billing/orders"
 emailID = 'i0116'
 passID = 'i0118'
 noButtonID = 'idBtn_Back'
-timeToScrape = 200  # time in seconds
+timeToScrape = 600  # time in seconds
 timeToWait = 3
 
 ENV = 'ENV'
@@ -102,7 +102,7 @@ print('GK: ',*giftKeyList, sep = "\n")
 print('DL: ',*dateList, sep = "\n")
 print('OL: ',*orderList, sep = "\n")
 
-fileSuffix = '{:%Y-%b-%d %H:%M:%S}'.format(datetime.datetime.now())
+fileSuffix = '{:%Y-%b-%d %H-%M-%S}'.format(datetime.datetime.now())
 folderName = 'data'
 fileExtension = 'xlsx'
 fileNameX = 'shakalakaboomboom'
