@@ -65,7 +65,7 @@ print('\nStarting Timer in seconds...', end='')
 TimerScraper().start()  # start a new timer thread
 time.sleep(timeToScrape)  # sleep so the page can load - main thread
 
-elementsCss = '.css-233'
+elementsCss = '.css-230'
 totalElements = driver.find_elements(By.CSS_SELECTOR, elementsCss)
 count = len(totalElements)
 print('\n\nTotal Order Scraped: ', count)
@@ -108,8 +108,12 @@ print('GK: ',*giftKeyList, sep = "\n")
 print('DL: ',*dateList, sep = "\n")
 print('OL: ',*orderList, sep = "\n")
 
-country = '<br>[Country: Turkey]<br'
-instructions = 'Instructions to redeem the code:<br>1. Download Nord VPN.<br>iOS link https://apps.apple.com/us/app/nordvpn-vpn-fast-secure/id905953485https://apps.apple.com/us/app/expressvpn-1-trusted-vpn/id886492891<br><br>Google PlayStore link: https://play.google.com/store/apps/details?id=com.nordvpn.android&hl=en&gl=US<br><br>2. Use these premium vpn credentials and connect to country mentioned after the code.<br>Credentials:<br><br>Email: dennenw@gmail.com<br>Pass: 1EcRU$13<br><br>**VPN is provided only to redeem the game code. Please don?t use the vpn for anything else.<br>Alternatively you can use any other vpn of your choice.<br>Go to redeem.microsoft.com and paste the code using the vpn and redeem to your account.<br>!!!SOME RUSSIAN CUSTOMERS HAVE EXPRESSED TROUBLE TO ACTIVATE KEY. IN THIS CASE	 CHANGE YOUR MICROSOFT ACCOUNT REGION BY GOING TO WWW.MICROSOFT.COM TO THE COUNTRY WRITTEN ABOVE + USE THE VPN OF THE SAME COUNTRY WRITTEN ABOVE!!!<br>FOR CUSTOMERS IN RUSSIA:<br>Sometimes Nord doesnot work in Russia use Seed4.Me:<br>Download the Seed4.MeApp<br>2. Run it and select Turkey region ??<br>3. Go to https://redeem.microsoft.com<br>4. Sign in to your account<br>5. Activate the key'
+country = '<br>[Country: Turkey]<br>'
+instructionsOne = 'Instructions to redeem the code:<br>1. Download Nord VPN.<br>iOS link https://apps.apple.com/us/app/nordvpn-vpn-fast-secure/id905953485https://apps.apple.com/us/app/expressvpn-1-trusted-vpn/id886492891<br><br>Google PlayStore link: https://play.google.com/store/apps/details?id=com.nordvpn.android&hl=en&gl=US<br><br>2. Use these premium vpn credentials and connect to country mentioned after the code.<br>Credentials:<br>'
+instructionsTwo = '<br>**VPN is provided only to redeem the game code. Please don?t use the vpn for anything else.<br>Alternatively you can use any other vpn of your choice.<br>Go to redeem.microsoft.com and paste the code using the vpn and redeem to your account.<br>!!!SOME RUSSIAN CUSTOMERS HAVE EXPRESSED TROUBLE TO ACTIVATE KEY. IN THIS CASE	 CHANGE YOUR MICROSOFT ACCOUNT REGION BY GOING TO WWW.MICROSOFT.COM TO THE COUNTRY WRITTEN ABOVE + USE THE VPN OF THE SAME COUNTRY WRITTEN ABOVE!!!<br>FOR CUSTOMERS IN RUSSIA:<br>Sometimes Nord doesnot work in Russia use Seed4.Me:<br>Download the Seed4.MeApp<br>2. Run it and select Turkey region ??<br>3. Go to https://redeem.microsoft.com<br>4. Sign in to your account<br>5. Activate the key'
+
+emailCred = '<br>Email: dennenw@gmail.com<br>'
+passCred = 'Pass: 1EcRU$13<br>'
 
 fileSuffix = '{:%Y-%b-%d %H-%M-%S}'.format(datetime.datetime.now())
 folderName = 'data'
@@ -117,7 +121,7 @@ fileExtension = 'xlsx'
 fileNameX = 'shakalakaboomboom'
 fileName = folderName+'/'+fileNameX+'_'+fileSuffix+'.'+fileExtension
 
-df = pd.DataFrame({'Date': dateList,'Order Number': orderList,'Name': nameList,'Gift Key': giftKeyList, 'Country': country, 'Instructions': instructions})
+df = pd.DataFrame({'Date': dateList,'Order Number': orderList,'Name': nameList,'Gift Key': giftKeyList, 'Country': country, 'Instructions1': instructionsOne, 'Email': emailCred, 'Password': passCred, 'Instructions2': instructionsTwo})
 writer = pd.ExcelWriter(fileName, engine='xlsxwriter')
 df.to_excel(writer, sheet_name='Sheet1', index=False)
 writer.save()
