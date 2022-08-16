@@ -108,9 +108,6 @@ for x in range(1, count+1):
 
 print('\n---------------------------------------\n')
 print('Total GK Scraped: ',tempCount-1)
-print('GK: ',*giftKeyList, sep = "\n")
-print('DL: ',*dateList, sep = "\n")
-print('OL: ',*orderList, sep = "\n")
 
 country = '<br>[Country: Turkey]<br>'
 instructionsOne = 'Instructions to redeem the code:<br>1. Download Nord VPN.<br>iOS link https://apps.apple.com/us/app/nordvpn-vpn-fast-secure/id905953485https://apps.apple.com/us/app/expressvpn-1-trusted-vpn/id886492891<br><br>Google PlayStore link: https://play.google.com/store/apps/details?id=com.nordvpn.android&hl=en&gl=US<br><br>2. Use these premium vpn credentials and connect to country mentioned after the code.<br>Credentials:<br>'
@@ -131,4 +128,5 @@ df.to_excel(writer, sheet_name='Sheet1', index=False)
 writer.save()
 
 print('Scrapping successful!')
+print('See "', fileName, '" for the scrapped data.')
 driver.quit()
