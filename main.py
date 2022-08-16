@@ -78,7 +78,8 @@ nameShame = driver.find_elements(By.CLASS_NAME, 'root-243')
 giftKeyList = list()
 dateList = list()
 orderList = list()
-tempCount = 1;
+countList = list()
+tempCount = 1
 nameList = list()
 
 for x in range(1, count+1):
@@ -99,11 +100,13 @@ for x in range(1, count+1):
         giftKeyList.append(giftCardNumber)
         dateList.append(dateShate.text)
         orderList.append(strippedOrderNumber)
+        countList.append(tempCount)
         tempCount += 1
     except:
         continue
 
-print('---------------------------------------')
+print('\n---------------------------------------\n')
+print('Total GK: ',tempCount)
 print('GK: ',*giftKeyList, sep = "\n")
 print('DL: ',*dateList, sep = "\n")
 print('OL: ',*orderList, sep = "\n")
@@ -121,7 +124,7 @@ fileExtension = 'xlsx'
 fileNameX = 'shakalakaboomboom'
 fileName = folderName+'/'+fileNameX+'_'+fileSuffix+'.'+fileExtension
 
-df = pd.DataFrame({'Date': dateList,'Order Number': orderList,'Name': nameList,'Gift Key': giftKeyList, 'Country': country, 'Instructions1': instructionsOne, 'Email': emailCred, 'Password': passCred, 'Instructions2': instructionsTwo})
+df = pd.DataFrame({'Sr': countList,'Date': dateList,'Order Number': orderList,'Name': nameList,'Gift Key': giftKeyList, 'Country': country, 'Instructions1': instructionsOne, 'Email': emailCred, 'Password': passCred, 'Instructions2': instructionsTwo})
 writer = pd.ExcelWriter(fileName, engine='xlsxwriter')
 df.to_excel(writer, sheet_name='Sheet1', index=False)
 writer.save()
