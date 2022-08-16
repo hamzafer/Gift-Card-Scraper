@@ -11,7 +11,7 @@ from threading import Thread
 from xlsxwriter import Workbook
 import datetime
 
-
+#############################################
 dotenv_path = join(dirname(__file__), '.env')
 load_dotenv(dotenv_path)
 
@@ -19,8 +19,9 @@ webURL = "https://account.microsoft.com/billing/orders"
 emailID = 'i0116'
 passID = 'i0118'
 noButtonID = 'idBtn_Back'
-timeToScrape = 600  # time in seconds
+timeToScrape = 60  # time in seconds
 timeToWait = 3
+clipboardWait = 0.1
 
 ENV = 'ENV'
 MAC_ENV = 'MAC'
@@ -70,11 +71,10 @@ totalElements = driver.find_elements(By.CSS_SELECTOR, elementsCss)
 count = len(totalElements)
 print('\n\nTotal Order Scraped: ', count)
 
-
-#Finding All Elements Name
+# finding All Elements Name
 nameShame = driver.find_elements(By.CLASS_NAME, 'root-243')
 
-#declaring lists
+# declaring lists
 giftKeyList = list()
 dateList = list()
 orderList = list()
@@ -101,12 +101,13 @@ for x in range(1, count+1):
         dateList.append(dateShate.text)
         orderList.append(strippedOrderNumber)
         countList.append(tempCount)
+        time.sleep(clipboardWait)
         tempCount += 1
     except:
         continue
 
 print('\n---------------------------------------\n')
-print('Total GK: ',tempCount)
+print('Total GK Scraped: ',tempCount-1)
 print('GK: ',*giftKeyList, sep = "\n")
 print('DL: ',*dateList, sep = "\n")
 print('OL: ',*orderList, sep = "\n")
