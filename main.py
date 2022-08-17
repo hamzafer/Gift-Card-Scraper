@@ -72,7 +72,7 @@ count = len(totalElements)
 print('\n\nTotal Order Scraped: ', count)
 
 # finding All Elements Name
-nameShame = driver.find_elements(By.CLASS_NAME, 'root-242')
+nameShame = driver.find_elements(By.CLASS_NAME, 'root-243')
 
 # declaring lists
 giftKeyList = list()
@@ -99,34 +99,35 @@ for x in range(1, count+1):
         stripStr = "Order number "
         strippedOrderNumber = orderNumberAboutToBeStripped.strip(stripStr)
         orderList.append(strippedOrderNumber)
-        
-        skippedOrderNumbers.append(strippedOrderNumber)
 
         gkCount+=1
         countList.append(gkCount)
 
         driver.execute_script("arguments[0].click();", giftcard)
+        time.sleep(clipboardWait)
         alert = driver.switch_to.active_element
-        alert.click()
-        copied_data = pd.read_clipboard()
-        giftCardNumber = copied_data.columns[0]
+
+        try:
+            alert.click()
+            copied_data = pd.read_clipboard()
+            giftCardNumber = copied_data.columns[0]
+        except:
+            giftCardNumber = 'Missing'
+            skippedOrderNumbers.append(strippedOrderNumber)
+            tempCount -= 1
 
         giftKeyList.append(giftCardNumber)
-        time.sleep(clipboardWait)
         tempCount += 1
-    except:
+    except Exception as e:
+        print(e)
         errorCount+=1
         continue
-
-new_list1 = list(set(orderList).difference(skippedOrderNumbers))
-new_list2 = list(set(orderList).intersection(skippedOrderNumbers))
 
 copiedKeys = tempCount-1
 print('\nTotal Gift Keys on the page:',gkCount)
 print('Total Gift Keys copied and pasted in excel file: ',copiedKeys)
 print('Total Gift Keys Skipped:',gkCount - copiedKeys)
-print('Skipped Gift Keys order numbers: ',*new_list1, sep = "\n")
-print('Skipped Gift Keys order numbers: ',*new_list2, sep = "\n")
+print('Skipped Gift Keys order numbers: ',*skippedOrderNumbers, sep = "\n")
 
 print('\n---------------------------------------\n')
 
