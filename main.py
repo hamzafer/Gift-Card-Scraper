@@ -73,6 +73,10 @@ print('\n\nTotal Order Scraped: ', count)
 
 # finding All Elements Name
 nameShame = driver.find_elements(By.CLASS_NAME, 'root-243')
+try:
+    nameShame[0].text
+except:
+    nameShame = driver.find_elements(By.CLASS_NAME, 'root-242')
 
 # declaring lists
 giftKeyList = list()
