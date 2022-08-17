@@ -21,7 +21,7 @@ passID = 'i0118'
 noButtonID = 'idBtn_Back'
 timeToScrape = 60  # time in seconds
 timeToWait = 3
-clipboardWait = 0.1
+clipboardWait = 1
 
 ENV = 'ENV'
 MAC_ENV = 'MAC'
@@ -72,7 +72,7 @@ count = len(totalElements)
 print('\n\nTotal Order Scraped: ', count)
 
 # finding All Elements Name
-nameShame = driver.find_elements(By.CLASS_NAME, 'root-243')
+nameShame = driver.find_elements(By.CLASS_NAME, 'root-242')
 
 # declaring lists
 giftKeyList = list()
@@ -81,33 +81,54 @@ orderList = list()
 countList = list()
 tempCount = 1
 nameList = list()
+gkCount = 0
+errorCount = 0
+skippedOrderNumbers = list()
 
 for x in range(1, count+1):
     try:
         giftcard = driver.find_element(By.XPATH, "//*[@id='order-history-wrapper']/div/div[3]/div["+str(x)+"]/div/div/div[2]/div/div[3]/div/div/div//button[@aria-label='View gift code']")
+
+        nameList.append(nameShame[x-1].text)
+
+        dateShate = driver.find_element(By.XPATH, "//*[@id='order-history-wrapper']/div/div[3]/div["+str(x)+"]//div/div/div[1]/span/span[1]")
+        dateList.append(dateShate.text)
+        
+        orderShorder = driver.find_element(By.XPATH, "//*[@id='order-history-wrapper']/div/div[3]/div["+str(x)+"]//div/div/div[1]/span/span[3]")
+        orderNumberAboutToBeStripped = orderShorder.text
+        stripStr = "Order number "
+        strippedOrderNumber = orderNumberAboutToBeStripped.strip(stripStr)
+        orderList.append(strippedOrderNumber)
+        
+        skippedOrderNumbers.append(strippedOrderNumber)
+
+        gkCount+=1
+        countList.append(gkCount)
+
         driver.execute_script("arguments[0].click();", giftcard)
         alert = driver.switch_to.active_element
         alert.click()
         copied_data = pd.read_clipboard()
         giftCardNumber = copied_data.columns[0]
-        dateShate = driver.find_element(By.XPATH, "//*[@id='order-history-wrapper']/div/div[3]/div["+str(x)+"]//div/div/div[1]/span/span[1]")
-        orderShorder = driver.find_element(By.XPATH, "//*[@id='order-history-wrapper']/div/div[3]/div["+str(x)+"]//div/div/div[1]/span/span[3]")
-        orderNumberAboutToBeStripped = orderShorder.text
-        stripStr = "Order number "
-        strippedOrderNumber = orderNumberAboutToBeStripped.strip(stripStr)
 
-        nameList.append(nameShame[x-1].text)
         giftKeyList.append(giftCardNumber)
-        dateList.append(dateShate.text)
-        orderList.append(strippedOrderNumber)
-        countList.append(tempCount)
         time.sleep(clipboardWait)
         tempCount += 1
     except:
+        errorCount+=1
         continue
 
+new_list1 = list(set(orderList).difference(skippedOrderNumbers))
+new_list2 = list(set(orderList).intersection(skippedOrderNumbers))
+
+copiedKeys = tempCount-1
+print('\nTotal Gift Keys on the page:',gkCount)
+print('Total Gift Keys copied and pasted in excel file: ',copiedKeys)
+print('Total Gift Keys Skipped:',gkCount - copiedKeys)
+print('Skipped Gift Keys order numbers: ',*new_list1, sep = "\n")
+print('Skipped Gift Keys order numbers: ',*new_list2, sep = "\n")
+
 print('\n---------------------------------------\n')
-print('Total GK Scraped: ',tempCount-1)
 
 country = '<br>[Country: Turkey]<br>'
 instructionsOne = 'Instructions to redeem the code:<br>1. Download Nord VPN.<br>iOS link https://apps.apple.com/us/app/nordvpn-vpn-fast-secure/id905953485https://apps.apple.com/us/app/expressvpn-1-trusted-vpn/id886492891<br><br>Google PlayStore link: https://play.google.com/store/apps/details?id=com.nordvpn.android&hl=en&gl=US<br><br>2. Use these premium vpn credentials and connect to country mentioned after the code.<br>Credentials:<br>'
